@@ -1,4 +1,4 @@
-function createStore(){
+function createStore(reducer){
     /**
      * The state 
      */
@@ -22,7 +22,7 @@ function createStore(){
      * Updating the state
      */
     const dispatch = (action) => {
-        state = todos(state, action);
+        state = reducer(state, action);
         listeners.forEach((listener) => listener());
     }
 
@@ -34,9 +34,18 @@ function createStore(){
 
 }
 
+function app(state={}, action) {
+    return {
+        todos: todos(state.todos, action),
+        goals: goals(state.goals, action)
+    }
+}
+
 const ADD_TODO = "ADD_TODO";
 const REMOVE_TODO = "REMOVE_TODO";
 const TOGGLE_TODO = "TOGGLE_TODO";
+const ADD_GOAL = "ADD_GOAL";
+const REMOVE_GOAL = "REMOVE_GOAL";
 /**
  * 
  * @param {*} state 
@@ -56,7 +65,18 @@ function todos(state=[], action) {
     /**We can also write a switch statement here */
 }
 
-const store = createStore(todos);
+function goals(state=[], action) {
+    if(action.type === ADD_GOAL){
+        return state.concat([action.goal]);
+    } else if(action.type === REMOVE_GOAL) {
+        return state.filter((goal) => goal.id !== action.id);
+    } else {
+        return state;
+    }
+    /**We can also write a switch statement here */
+}
+
+const store = createStore(app);
 store.subscribe(() => {
     console.log("The new state is:", store.getState());
 });
@@ -91,5 +111,23 @@ store.dispatch({
 });
 store.dispatch({
     type: TOGGLE_TODO,
+    id: 2
+});
+store.dispatch({
+    type: ADD_GOAL,
+    goal: {
+        id: 1,
+        name: 'Complete Redux in 20 days'
+    }
+});
+store.dispatch({
+    type: ADD_GOAL,
+    goal: {
+        id: 2,
+        name: 'Complete React in 10 days'
+    }
+});
+store.dispatch({
+    type: REMOVE_GOAL,
     id: 2
 });
