@@ -34,16 +34,26 @@ function createStore(){
 
 }
 
+const ADD_TODO = "ADD_TODO";
+const REMOVE_TODO = "REMOVE_TODO";
+const TOGGLE_TODO = "TOGGLE_TODO";
+/**
+ * 
+ * @param {*} state 
+ * @param {*} action 
+ * Function to handle the actions
+ */
 function todos(state=[], action) {
-    if(action.type === "ADD_TODOS"){
+    if(action.type === ADD_TODO){
         return state.concat([action.todo]);
-    } else if(action.type === "REMOVE_TODOS") {
+    } else if(action.type === REMOVE_TODO) {
         return state.filter((todo) => todo.id !== action.id);
-    } else if(action.type === "TOGGLE_TODOS"){
+    } else if(action.type === TOGGLE_TODO){
         return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, {complete: !todo.complete}));
     } else {
         return state;
     }
+    /**We can also write a switch statement here */
 }
 
 const store = createStore(todos);
@@ -52,7 +62,7 @@ store.subscribe(() => {
 });
 
 store.dispatch({
-    type: "ADD_TODOS",
+    type: ADD_TODO,
     todo: {
         id: 1,
         name: "Learn Redux",
@@ -60,7 +70,7 @@ store.dispatch({
     }
 });
 store.dispatch({
-    type: "ADD_TODOS",
+    type: ADD_TODO,
     todo: {
         id: 2,
         name: "Learn React",
@@ -68,7 +78,7 @@ store.dispatch({
     }
 });
 store.dispatch({
-    type: "ADD_TODOS",
+    type: ADD_TODO,
     todo: {
         id: 3,
         name: "Learn HTML",
@@ -76,10 +86,10 @@ store.dispatch({
     }
 });
 store.dispatch({
-    type: "REMOVE_TODOS",
+    type: REMOVE_TODO,
     id: 3
 });
 store.dispatch({
-    type: "TOGGLE_TODOS",
+    type: TOGGLE_TODO,
     id: 2
 });
