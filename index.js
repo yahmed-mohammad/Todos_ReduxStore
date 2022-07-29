@@ -93,6 +93,53 @@ store.subscribe(() => {
     console.log("The new state is:", store.getState());
 });
 
+function generateId() {
+    return (
+      Math.random().toString(36).substring(2) +
+      new Date().getTime().toString(36)
+    );
+  }
+
+function addTodo() {
+    const input = document.getElementById('todo');
+    const name = input.value;
+    input.value='';
+    const todo= {
+        id: generateId(),
+        name: name,
+        complete: false
+    }
+    store.dispatch(addTodoAction(todo));
+}
+
+function addGoal() {
+    const input = document.getElementById('goal');
+    const name = input.value;
+    input.value='';
+    const goal= {
+        id: generateId(),
+        name: name
+    }
+    store.dispatch(addGoalAction(goal));
+}
+
+function addTodoAction(todo) {
+    return {
+        type: ADD_TODO,
+        todo: todo
+    }
+}
+function addGoalAction(goal) {
+    return {
+        type: ADD_GOAL,
+        goal: goal
+    }
+}
+
+document.getElementById('todoBtn').addEventListener('click', addTodo);
+document.getElementById('goalBtn').addEventListener('click', addGoal);
+
+/*
 store.dispatch({
     type: ADD_TODO,
     todo: {
@@ -143,3 +190,4 @@ store.dispatch({
     type: REMOVE_GOAL,
     id: 2
 });
+*/
