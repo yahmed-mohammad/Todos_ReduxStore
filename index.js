@@ -190,7 +190,11 @@ function addTodoUI(todo){
 function addGoalUI(goal){
     const node = document.createElement('li');
     const text = document.createTextNode(goal.name);
+    const removeBtn = createRemoveButton(() => {
+        store.dispatch(removeGoalAction(goal.id));
+    });
     node.appendChild(text);
+    node.appendChild(removeBtn);
 
     document.getElementById('goals').append(node);
 }
