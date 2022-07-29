@@ -37,8 +37,13 @@ function createStore(){
 function todos(state=[], action) {
     if(action.type === "ADD_TODOS"){
         return state.concat([action.todo]);
+    } else if(action.type === "REMOVE_TODOS") {
+        return state.filter((todo) => todo.id !== action.id);
+    } else if(action.type === "TOGGLE_TODOS"){
+        return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, {complete: !todo.complete}));
+    } else {
+        return state;
     }
-    return state;
 }
 
 const store = createStore(todos);
@@ -53,4 +58,28 @@ store.dispatch({
         name: "Learn Redux",
         complete: false
     }
+});
+store.dispatch({
+    type: "ADD_TODOS",
+    todo: {
+        id: 2,
+        name: "Learn React",
+        complete: false
+    }
+});
+store.dispatch({
+    type: "ADD_TODOS",
+    todo: {
+        id: 3,
+        name: "Learn HTML",
+        complete: false
+    }
+});
+store.dispatch({
+    type: "REMOVE_TODOS",
+    id: 3
+});
+store.dispatch({
+    type: "TOGGLE_TODOS",
+    id: 2
 });
