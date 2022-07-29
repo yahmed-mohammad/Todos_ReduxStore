@@ -34,6 +34,12 @@ function createStore(reducer){
 
 }
 
+/**
+ * 
+ * @param {*} state 
+ * @param {*} action 
+ * Common function to handle multiple state and actions
+ */
 function app(state={}, action) {
     return {
         todos: todos(state.todos, action),
@@ -50,7 +56,7 @@ const REMOVE_GOAL = "REMOVE_GOAL";
  * 
  * @param {*} state 
  * @param {*} action 
- * Function to handle the actions
+ * Function to handle the todos actions
  */
 function todos(state=[], action) {
     if(action.type === ADD_TODO){
@@ -65,6 +71,12 @@ function todos(state=[], action) {
     /**We can also write a switch statement here */
 }
 
+/**
+ * 
+ * @param {*} state 
+ * @param {*} action 
+ * Function to handle the goal actions
+ */
 function goals(state=[], action) {
     if(action.type === ADD_GOAL){
         return state.concat([action.goal]);
