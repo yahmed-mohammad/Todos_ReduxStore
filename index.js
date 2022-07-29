@@ -26,13 +26,6 @@ function createStore(){
         listeners.forEach((listener) => listener());
     }
 
-    function todos(state=[], action) {
-        if(action.type === "ADD_TODOS"){
-            return state.concat([action.todo]);
-        }
-        return state;
-    }
-
     return {
         getState,
         subscribe,
@@ -41,7 +34,14 @@ function createStore(){
 
 }
 
-const store = createStore();
+function todos(state=[], action) {
+    if(action.type === "ADD_TODOS"){
+        return state.concat([action.todo]);
+    }
+    return state;
+}
+
+const store = createStore(todos);
 store.subscribe(() => {
     console.log("The new state is:", store.getState());
 });
