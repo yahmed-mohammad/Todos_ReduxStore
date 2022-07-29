@@ -90,7 +90,12 @@ function goals(state=[], action) {
 
 const store = createStore(app);
 store.subscribe(() => {
-    console.log("The new state is:", store.getState());
+    const {todos, goals} = store.getState();
+    document.getElementById('todos').innerHTML= '';
+    document.getElementById('goals').innerHTML= '';
+    todos.forEach(addTodoUI);
+    goals.forEach(addGoalUI);
+    //console.log("The new state is:", store.getState());
 });
 
 function generateId() {
@@ -129,15 +134,66 @@ function addTodoAction(todo) {
         todo: todo
     }
 }
+function toggleTodoAction(id) {
+    return {
+        type: TOGGLE_TODO,
+        id: id
+    }
+}
+function removeTodoAction(id) {
+    return {
+        type: REMOVE_TODO,
+        id: id
+    }
+}
 function addGoalAction(goal) {
     return {
         type: ADD_GOAL,
         goal: goal
     }
 }
+function removeGoalAction(id) {
+    return {
+        type: REMOVE_GOAL,
+        id: id
+    }
+}
 
 document.getElementById('todoBtn').addEventListener('click', addTodo);
 document.getElementById('goalBtn').addEventListener('click', addGoal);
+
+function createRemoveButton(onClick){
+    const removeBtn = document.createElement('button');
+    removeBtn.innerHTML = 'X';
+    removeBtn.addEventListener('click', onClick);
+    return removeBtn;
+}
+
+function addTodoUI(todo){
+    const node = document.createElement('li');
+    const text = document.createTextNode(todo.name);
+    const removeBtn = createRemoveButton(() => {
+        store.dispatch(removeTodoAction(todo.id));
+    });
+
+    node.appendChild(text);
+    node.appendChild(removeBtn);
+
+    node.style.textDecoration = todo.complete ? 'line-through': 'none';
+    node.addEventListener('click', () => {
+        store.dispatch(toggleTodoAction(todo.id));
+    });
+
+    document.getElementById('todos').append(node);
+}
+
+function addGoalUI(goal){
+    const node = document.createElement('li');
+    const text = document.createTextNode(goal.name);
+    node.appendChild(text);
+
+    document.getElementById('goals').append(node);
+}
 
 /*
 store.dispatch({
