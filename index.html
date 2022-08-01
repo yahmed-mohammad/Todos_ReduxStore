@@ -196,7 +196,11 @@
             const List = (props) => {
                 return(
                     <ul>
-                        <li> LIST </li>
+                        {
+                            props.items && props.items.map((item) => (
+                                <li key={item.id}><span>{item.name}</span></li>
+                            ))
+                        }
                     </ul>
                 );
             };
@@ -218,7 +222,7 @@
                         <h1>Todos List using REACT</h1>
                         <input type="text" placeholder="Add Todos" ref={inputRef}/>
                         <button onClick={addItem}>Add Todo</button>
-                        <List/>
+                        <List items={props.todos}/>
                     </div>
                 );
             };
@@ -240,15 +244,15 @@
                         <h1>Goals List using REACT</h1>
                         <input type="text" placeholder="Add Goals" ref={inputRef}/>
                         <button onClick={addItem}>Add Goal</button>
-                        <List/>
+                        <List items={props.goals}/>
                     </div>
                 );
             };
             const App = (props) => {
                 const [value, setValue] = React.useState(0);
 
-                React.useEffect(() = {
-                    props.store.subscribe(() = {
+                React.useEffect(() => {
+                    props.store.subscribe(() => {
                         setValue((value) => value + 1);
                     })
                 }, [])
