@@ -163,8 +163,12 @@
                     }))
                 }
 
-                const removeItem = todo => {
+                const removeItem = (todo) => {
                     props.store.dispatch(removeTodoAction(todo.id));
+                    return API.deleteTodo(todo.id).catch(() => {
+                        props.store.dispatch(addTodoAction(todo));
+                    });
+                    
                 }
 
                 const toggle = id => {
@@ -195,6 +199,9 @@
 
                 const removeItem = goal => {
                     props.store.dispatch(removeGoalAction(goal.id));
+                    return API.deleteGoal(goal).catch(() => {
+                        props.store.dispatch(addGoalAction(goal));
+                    });
                 }
 
                 return (
