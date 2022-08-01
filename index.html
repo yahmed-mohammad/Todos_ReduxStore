@@ -153,14 +153,12 @@
                 const inputRef = React.useRef();
                 const addItem = (event) => {
                     event.preventDefault();
-                    const name = inputRef.current.value;
-                    inputRef.current.value="";
-
-                    props.store.dispatch(addTodoAction({
-                        name,
-                        complete: false,
-                        id: generateId()
-                    }))
+                    API.saveTodo(inputRef.current.value).then((todo) => {
+                        props.store.dispatch(addTodoAction(todo));
+                        inputRef.current.value="";
+                    }).catch(() => {
+                        alert("Opps!!!");
+                    });
                 }
 
                 const removeItem = (todo) => {
@@ -194,12 +192,12 @@
                 const addItem = (event) => {
                     event.preventDefault();
                     const name = inputRef.current.value;
-                    inputRef.current.value="";
-
-                    props.store.dispatch(addGoalAction({
-                        name,
-                        id: generateId()
-                    }))
+                    API.saveGoal(name).then((goal) => {
+                        props.store.dispatch(addGoalAction(goal));
+                        inputRef.current.value="";
+                    }).catch(() => {
+                        alert("Oops!!!");
+                    });
                 }
 
                 const removeItem = goal => {
