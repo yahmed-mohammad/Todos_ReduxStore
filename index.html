@@ -167,12 +167,17 @@
                     props.store.dispatch(removeTodoAction(todo.id));
                     return API.deleteTodo(todo.id).catch(() => {
                         props.store.dispatch(addTodoAction(todo));
+                        alert("An Error Occurred!!!");
                     });
                     
                 }
 
-                const toggle = id => {
+                const toggle = (id) => {
                     props.store.dispatch(toggleTodoAction(id));
+                    return API.saveTodoToggle(id).catch(() => {
+                        props.store.dispatch(toggleTodoAction(id));
+                        alert("An Error Occurred!!!");
+                    });
                 }
 
                 return (
@@ -201,6 +206,7 @@
                     props.store.dispatch(removeGoalAction(goal.id));
                     return API.deleteGoal(goal).catch(() => {
                         props.store.dispatch(addGoalAction(goal));
+                        alert("An Error Occurred!!!");
                     });
                 }
 
