@@ -62,7 +62,8 @@
 
             const store = Redux.createStore(Redux.combineReducers({
                 todos,
-                goals
+                goals,
+                loading
             }));
 
             function generateId() {
@@ -70,6 +71,15 @@
                 Math.random().toString(36).substring(2) +
                 new Date().getTime().toString(36)
                 );
+            }
+
+            function loading(state= true, action) {
+                switch(action.type){
+                    case RECIEVE_DATA:
+                        return false;
+                    default:
+                        return state;
+                }
             }
 
             function checkAndDispatch(store, action){
@@ -208,7 +218,11 @@
                     })
                 }, [])
 
-                const {todos, goals} = props.store.getState();
+                const {todos, goals, loading} = props.store.getState();
+
+                if(loading === true) {
+                    return <h3>Loading...</h3>
+                }
 
                 return (
                     <div>
