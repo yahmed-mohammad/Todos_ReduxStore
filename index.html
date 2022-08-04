@@ -36,59 +36,7 @@
     </script>
 
     <script type="text/babel">
-      const List = (props) => {
-        return (
-          <ul>
-            {props.items &&
-              props.items.map((item) => (
-                <li key={item.id}>
-                  <span
-                    onClick={() => props.toggle && props.toggle(item.id)}
-                    style={{
-                      textDecoration: item.complete ? "line-through" : "none",
-                    }}
-                  >
-                    {item.name}
-                  </span>
-                  <button onClick={() => props.remove(item)}>X</button>
-                </li>
-              ))}
-          </ul>
-        );
-      };
 
-      const Todos = (props) => {
-        const inputRef = React.useRef();
-
-        const addItem = (e) => {
-          e.preventDefault();
-
-          props.dispatch(
-            handleAddTodo(
-              inputRef.current.value,
-              () => (inputRef.current.value = "")
-            )
-          );
-        };
-
-        const removeItem = (todo) => {
-          props.dispatch(handleDeleteTodo(todo));
-        };
-
-        const toggleItem = (id) => {
-          props.dispatch(handleToggle(id));
-        };
-
-        return (
-          <div>
-            <h1>Todo List</h1>
-            <input type="text" placeholder="Add Todo" ref={inputRef} />
-            <button onClick={addItem}>Add Todo</button>
-
-            <List toggle={toggleItem} items={props.todos} remove={removeItem} />
-          </div>
-        );
-      };
 
       const ConnectedTodos = ReactRedux.connect((state) => ({
         todos: state.todos,
@@ -125,27 +73,6 @@
       const ConnectedGoals = ReactRedux.connect((state) => ({
         goals: state.goals,
       }))(Goals);
-
-      const App = (props) => {
-        React.useEffect(() => {
-          props.dispatch(handleInitialData());
-        }, []);
-
-        if (props.loading === true) {
-          return <h3>Loading</h3>;
-        }
-
-        return (
-          <div>
-            <ConnectedTodos />
-            <ConnectedGoals />
-          </div>
-        );
-      };
-
-      const ConnectedApp = ReactRedux.connect((state) => ({
-        loading: state.loading,
-      }))(App);
 
       ReactDOM.render(
         <ReactRedux.Provider store={store}>

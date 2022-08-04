@@ -47,7 +47,7 @@ function toggleTodo(id) {
         alert("An error occurred. Try again.");
       });
     };
-  }
+  };
 
   export function handleToggle(id) {
     return (dispatch) => {
